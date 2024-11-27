@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="_Utils/InstallPath.props"/>
+    <Import Project="_Utils/InstallPath.props" />
 
     <!-- Generic assembly info. -->
     <PropertyGroup>
@@ -34,7 +34,7 @@
             <HintPath>$(ATLYSS_MANAGED)\Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        
+
         <!-- Third party modules. -->
         <Reference Include="com.rlabrecque.steamworks.net">
             <HintPath>$(ATLYSS_MANAGED)\com.rlabrecque.steamworks.net.dll</HintPath>
@@ -52,6 +52,10 @@
         <!-- Unity. Add any other assemblies as needed, not all of them were listed here. -->
         <Reference Include="UnityEngine">
             <HintPath>$(ATLYSS_MANAGED)\UnityEngine.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AssetBundleModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.AssetBundleModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.AudioModule">
