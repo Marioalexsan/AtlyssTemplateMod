@@ -3,6 +3,7 @@
 
     <!-- Generic assembly info. -->
     <PropertyGroup>
+        <!-- use "net48" target if you need to work with ILGenerator -->
         <TargetFramework>netstandard2.1</TargetFramework>
         <AssemblyName>TemplateMod</AssemblyName>
         <RootNamespace>TemplateMod</RootNamespace>
@@ -133,5 +134,8 @@
             <HintPath>$(ATLYSS_BEPINEX)\MonoMod.Utils.dll</HintPath>
             <Private>False</Private>
         </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Thunderstore\Output\" />
     </ItemGroup>
 </Project>
