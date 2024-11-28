@@ -6,6 +6,22 @@ import re
 import shutil
 import zipfile
 
+def keep_assembly_dependency(assembly):
+  IGNORED_ASSEMBLIES = [
+    "AsmResolver",
+    "BepInEx.AssemblyPublicizer",
+    "Microsoft.Win32",
+    "Newtonsoft.Json",
+    "System.",
+  ]
+
+  for part in IGNORED_ASSEMBLIES:
+    if part in assembly:
+      return False
+
+  return True
+
+
 LAST_WORKDIR = os.getcwd()
 
 # Ensure script location is current directory
@@ -62,7 +78,7 @@ else:
   FRAMEWORK = 'netstandard2.1'
 
 os.chdir(os.path.join('bin', 'Debug', FRAMEWORK))
-ASSEMBLIES = [os.path.abspath(path) for path in glob.glob('*.dll')]
+ASSEMBLIES = [os.path.abspath(path) for path in glob.glob('*.dll') if keep_assembly_dependency(path)]
 
 if len(ASSEMBLIES) == 0:
   print('Couldn\'t find build files, please check that the project has been built in Debug mode.')
