@@ -138,4 +138,10 @@
     <ItemGroup>
       <Folder Include="Thunderstore\Output\" />
     </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="python _Utils/pack_game.py" ContinueOnError="true" />
+    </Target>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+      <Exec Command="python _Utils/find_game.py" ContinueOnError="true" />
+    </Target>
 </Project>

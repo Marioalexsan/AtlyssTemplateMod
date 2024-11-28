@@ -23,7 +23,8 @@ if len(slns) != 1:
 
 sln = slns[0]
 
-subprocess.run(['dotnet', 'build', slns[0]])
+# Uncomment in case you're running this standalone and need to build the project
+# subprocess.run(['dotnet', 'build', slns[0]])
 
 if len(csprojs) == 1:
   with open(csprojs[0], 'r') as f:
@@ -62,6 +63,10 @@ else:
 
 os.chdir(os.path.join('bin', 'Debug', FRAMEWORK))
 ASSEMBLIES = [os.path.abspath(path) for path in glob.glob('*.dll')]
+
+if len(ASSEMBLIES) == 0:
+  print('Couldn\'t find build files, please check that the project has been built in Debug mode.')
+  sys.exit(1)
 
 print('Will copy the following DLLs to the package:')
 
