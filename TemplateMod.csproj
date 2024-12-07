@@ -2,7 +2,7 @@
     <!-- Mod and assembly info. These also determine the metadata for Thunderstore and whatnot. -->
     <PropertyGroup>
         <AssemblyName>TemplateMod</AssemblyName>
-        <Product>Template plugin for Atlyss using BepInEx 5</Product>
+        <Product>TemplateMod</Product>
         <Version>1.0.0</Version>
     </PropertyGroup>
 
