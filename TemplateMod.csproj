@@ -1,8 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <!-- Mod and assembly info. These also determine the metadata for Thunderstore and whatnot. -->
     <PropertyGroup>
+        <!-- Mod unique identifier / GUID. Gets set as Plugin GUID in BepInPlugin and manifest.json's "name" field. -->
         <AssemblyName>TemplateMod</AssemblyName>
+        
+        <!-- Mod display name. Gets set as Plugin Name in BepInPlugin. -->
         <Product>TemplateMod</Product>
+        
+        <!-- Mod version. Gets set as Plugin Version in BepInPlugin and manifest.json's "version_number" field. -->
         <Version>1.0.0</Version>
     </PropertyGroup>
 
