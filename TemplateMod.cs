@@ -12,31 +12,18 @@ using UnityEngine;
 
 namespace TemplateMod;
 
-// Comment this patch if you want to use HookGen instead of Harmony
-// NOTE: If you need to work with ILGenerator for transpilers, you need to switch
-//       from netstandard2.1 to net48 in the project's TargetFramework attribute
-[HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Set_MenuCondition))]
-public static class MenuPatch
-{
-    [HarmonyPostfix]
-    private static void SetMenuConditionPatch(MainMenuManager __instance)
-    {
-        __instance._versionDisplayText.text = Application.version + " with Mods :D";
-    }
-}
-
-[BepInPlugin("Marioalexsan.TemplateMod", "Template mod for Atlyss using BepInEx", "1.0.0")]
+[BepInPlugin(ModInfo.PLUGIN_GUID, ModInfo.PLUGIN_NAME, ModInfo.PLUGIN_VERSION)]
 public class TemplateMod : BaseUnityPlugin
 {
-    // The template mod patches the main menu version string to include extra text.
+    private Harmony _harmony;
 
     private void Awake()
     {
-        var harmony = new Harmony("TemplateMod");
-        harmony.PatchAll();
+        _harmony = new Harmony($"{ModInfo.PLUGIN_GUID}");
+        _harmony.PatchAll();
 
-        UnityEngine.Debug.Log("Hello from TemplateMod!");
-        UnityEngine.Debug.Log($"Application version is ${Application.version}");
+        UnityEngine.Debug.Log($"Hello from {ModInfo.PLUGIN_NAME}!");
+        UnityEngine.Debug.Log($"Application version is ${Application.version}.");
 
         SetupMonomodHooks();
     }

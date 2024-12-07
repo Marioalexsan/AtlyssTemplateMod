@@ -5,6 +5,7 @@ import subprocess
 import re
 import shutil
 import zipfile
+import json
 
 def keep_assembly_dependency(assembly):
   IGNORED_ASSEMBLIES = [
@@ -67,12 +68,21 @@ if len(csprojs) == 1:
       # Let's assume it's netstandard2.1
       FRAMEWORK = 'netstandard2.1'
 
-    MATCH_NAME = re.search("<AssemblyName>(.*)</AssemblyName>", CSPROJ_DATA)
+    MATCH_GUID = re.search("<AssemblyName>(.*)</AssemblyName>", CSPROJ_DATA)
     
-    if MATCH is not None:
-      MOD_NAME = MATCH_NAME.group(1)
+    if MATCH_GUID is not None:
+      MOD_GUID = MATCH_GUID.group(1)
     else:
-      MOD_NAME = 'Mod'
+      print('Failed to find <AssemblyName> to use as mod GUID in .csproj, cannot pack mod as a result.')
+      sys.exit(1)
+
+    MATCH_VERSION = re.search("<Version>(.*)</Version>", CSPROJ_DATA)
+    
+    if MATCH_VERSION is not None:
+      MOD_VERSION = MATCH_VERSION.group(1)
+    else:
+      print('Failed to find <Version> to use as mod version in .csproj, cannot pack mod as a result.')
+      sys.exit(1)
 else:
   # Let's assume it's netstandard2.1
   FRAMEWORK = 'netstandard2.1'
@@ -90,15 +100,29 @@ for assembly in ASSEMBLIES:
   print(' - ' + assembly)
 
 os.chdir(os.path.join('..', '..', '..'))
-os.chdir('Thunderstore')
+os.chdir('_Thunderstore')
 
 shutil.rmtree('Output', ignore_errors=True)
 
 os.mkdir('Output')
-  
+
+# Update mod GUID and version
+if not os.path.exists('manifest.json'):
+  print("Couldn't find manifest.json in output, was it removed?")
+  sys.exit(1)
+
+with open('manifest.json', 'r') as f:
+  MANIFEST_DATA = json.loads(f.read())
+
+MANIFEST_DATA['name'] = MOD_GUID
+MANIFEST_DATA['version_number'] = MOD_VERSION
+
+with open('manifest.json', 'w') as f:
+  f.write(json.dumps(MANIFEST_DATA, indent=2))
+
 # Pack everything into a zip
 
-with zipfile.ZipFile(os.path.join('Output', f'{MOD_NAME}.zip'), 'w', zipfile.ZIP_DEFLATED) as pkg:
+with zipfile.ZipFile(os.path.join('Output', f'{MOD_GUID}.zip'), 'w', zipfile.ZIP_DEFLATED) as pkg:
   with open(os.path.join('manifest.json'), 'rb') as f:
     pkg.write('manifest.json')
   with open(os.path.join('icon.png'), 'rb') as f:

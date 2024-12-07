@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="_Utils/InstallPath.props" />
+    <!-- Mod and assembly info. These also determine the metadata for Thunderstore and whatnot. -->
+    <PropertyGroup>
+        <AssemblyName>TemplateMod</AssemblyName>
+        <Product>Template plugin for Atlyss using BepInEx 5</Product>
+        <Version>1.0.0</Version>
+    </PropertyGroup>
 
     <!-- Generic assembly info. -->
     <PropertyGroup>
         <!-- use "net48" target if you need to work with ILGenerator -->
+        <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>net48</TargetFramework>
-        <AssemblyName>TemplateMod</AssemblyName>
-        <RootNamespace>TemplateMod</RootNamespace>
-        <Product>Template plugin for Atlyss using BepInEx 5</Product>
-        <Version>1.0.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -70,6 +72,10 @@
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>$(ATLYSS_MANAGED)\UnityEngine.CoreModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.TextRenderingModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.UI">
@@ -135,9 +141,6 @@
             <HintPath>$(ATLYSS_BEPINEX)\MonoMod.Utils.dll</HintPath>
             <Private>False</Private>
         </Reference>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Thunderstore\Output\" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
       <Exec Command="python _Utils/pack_game.py" ContinueOnError="true" />
