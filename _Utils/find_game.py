@@ -1,7 +1,7 @@
-import re
-import psutil
-import platform
+from re import search
+from platform import system
 from os import path, walk, chdir
+from psutil import disk_partitions
 
 chdir(path.dirname(path.abspath(__file__)))
 
@@ -30,9 +30,9 @@ def findAtlyss(broad: bool = False):
     if broad:
         if not steamLibraries:
             print("No predefined libraries found, starting a broader search...")
-            if platform.system() == 'Windows':
+            if system() == 'Windows':
                 drives = []
-                for partition in psutil.disk_partitions():
+                for partition in disk_partitions():
                     if 'removable' not in partition.opts:
                         drives.append(partition.mountpoint)
                 print(f"Non-removable drives found: {drives}")
@@ -62,7 +62,7 @@ def findAtlyss(broad: bool = False):
 with open("../Directory.Build.props", "r") as file:
     propsData = file.read()
 
-previousPath = re.search("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", propsData)
+previousPath = search("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", propsData)
 
 try:
     previousPath.group(1)
@@ -74,7 +74,7 @@ except AttributeError:
     with open("../Directory.Build.props", "r") as file:
         propsData = file.read()
 
-    previousPath = re.search("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", propsData)
+    previousPath = search("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", propsData)
 
 if path.exists(previousPath.group(1)):
     print("Previous ATLYSS_PATH seems valid, won't overwrite it.")
