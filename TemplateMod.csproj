@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <!-- Mod and assembly info. These also determine the metadata for Thunderstore and whatnot. -->
     <PropertyGroup>
+        <!-- The name to set within Thunderstore's manifest.json for the mod. -->
+        <ThunderstoreName>TemplateMod</ThunderstoreName>
+        
         <!-- Mod unique identifier / GUID. Gets set as Plugin GUID in BepInPlugin and manifest.json's "name" field. -->
         <AssemblyName>TemplateMod</AssemblyName>
         
@@ -53,14 +56,51 @@
             <HintPath>$(ATLYSS_MANAGED)\FizzySteamworks.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="Mirror.Authenticators">
+            <HintPath>$(ATLYSS_MANAGED)\Mirror.Authenticators.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mirror.Components">
+            <HintPath>$(ATLYSS_MANAGED)\Mirror.Components.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="Mirror">
             <HintPath>$(ATLYSS_MANAGED)\Mirror.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="Mirror.Transports">
+            <HintPath>$(ATLYSS_MANAGED)\Mirror.Transports.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="NavMeshComponents">
+            <HintPath>$(ATLYSS_MANAGED)\NavMeshComponents.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(ATLYSS_MANAGED)\Newtonsoft.Json.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="SimpleWebTransport">
+            <HintPath>$(ATLYSS_MANAGED)\SimpleWebTransport.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Telepathy">
+            <HintPath>$(ATLYSS_MANAGED)\Telepathy.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+
 
         <!-- Unity. Add any other assemblies as needed, not all of them were listed here. -->
         <Reference Include="UnityEngine">
             <HintPath>$(ATLYSS_MANAGED)\UnityEngine.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AccessibilityModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.AccessibilityModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AnimationModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.AnimationModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.AssetBundleModule">
@@ -71,12 +111,52 @@
             <HintPath>$(ATLYSS_MANAGED)\UnityEngine.AudioModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="UnityEngine.JSONSerializeModule">
-            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.JSONSerializeModule.dll</HintPath>
+        <Reference Include="UnityEngine.ClothModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.ClothModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>$(ATLYSS_MANAGED)\UnityEngine.CoreModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.ImageConversionModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.InputLegacyModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.InputModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.JSONSerializeModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.LocalizationModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.LocalizationModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.ParticleSystemModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.Physics2DModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.Physics2DModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.PhysicsModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TerrainModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.TerrainModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.TextCoreModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.TextRenderingModule">
@@ -85,6 +165,14 @@
         </Reference>
         <Reference Include="UnityEngine.UI">
             <HintPath>$(ATLYSS_MANAGED)\UnityEngine.UI.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.UIModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.VideoModule">
+            <HintPath>$(ATLYSS_MANAGED)\UnityEngine.VideoModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
