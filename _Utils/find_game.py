@@ -67,10 +67,10 @@ previousPath = search("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", propsData)
 try:
     previousPath.group(1)
 except AttributeError:
+    # makes sure that theres at least a grammar constraint inside it
     with open("../Directory.Build.props", "w") as file:
         file.write("<ATLYSS_PATH></ATLYSS_PATH>")
 
-    # makes sure that theres at least a grammar constraint inside it
     with open("../Directory.Build.props", "r") as file:
         propsData = file.read()
 
