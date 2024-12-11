@@ -1,78 +1,74 @@
-import os
-import sys
-import platform
-import argparse
-import shutil
-import re
+from re import search, sub
+from os import path, walk, chdir
 
+chdir(path.dirname(path.abspath(__file__)))
 
-def windows_paths():
-  paths = []
+def findAtlyss():
+    libraryLocations = [
+        # Windows
+        path.expandvars(r'%ProgramFiles(x86)%\\Steam\\steamapps\\libraryfolders.vdf'),
+        path.expandvars(r'%ProgramFiles%\\Steam\\steamapps\\libraryfolders.vdf'),
+        path.expandvars(r'%UserProfile%\\Documents\\My Games\\Steam\\libraryfolders.vdf'),
+        path.expandvars(r'%ProgramData%\\Steam\\libraryfolders.vdf'),
 
-  DRIVES = ["C:\\", "D:\\", "E:\\", "F:\\", "G:\\", "H:\\", "I:\\", "J:\\"]
-  INSTALL_PATHS = [
-    "Program Files (x86)\\Steam\\steamapps\\common\\",
-    "Program Files\\Steam\\steamapps\\common\\",
-    "SteamLibrary\\steamapps\\common\\"
-  ]
+        # Linux
+        path.expanduser(r'~/.steam/steam/steamapps/libraryfolders.vdf'),
+        path.expanduser(r'~/.local/share/Steam/steamapps/libraryfolders.vdf'),
+    ]
 
-  for drive in DRIVES:
-    for install_path in INSTALL_PATHS:
-      paths.append(drive + install_path + "ATLYSS\\")
+    steamLibraries = []
+    for location in libraryLocations:
+        print(f"Checking library location: {location}")
+        if path.isfile(location):
+            with open(location, 'r') as file:
+                libraries = [line.split('"')[3] for line in file if '"path"' in line]
+                steamLibraries.extend(libraries)
+                print(f"Found libraries: {libraries}")
 
-  return paths
+    for library in steamLibraries:
+        common_path = path.join(library, "steamapps", "common")
+        if path.exists(common_path):
+            for dirpath, dirnames, _ in walk(common_path):
+                if "ATLYSS" in dirnames:
+                    installationPath = path.join(dirpath, "ATLYSS")
+                    print(f"Atlyss found at: {installationPath}")
+                    return installationPath
 
-# Ensure script location is current directory
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    print("Atlyss installation not found.")
+    return None
 
-OS_TYPE = platform.system()
-GAMEPATH_PROPS_PATH = 'GamePath.props'
+# 
+propsFile = "../Directory.Build.props"
 
-if OS_TYPE == 'Windows':
-  SEARCH_PATHS = windows_paths()
-  GAME_EXECUTABLE = 'ATLYSS.exe'
+if not path.isfile(propsFile):
+    print(f"File {propsFile} does not exist. Creating it with a placeholder.")
+    with open(propsFile, "w") as file:
+        file.write("<ATLYSS_PATH></ATLYSS_PATH>")
+
+with open(propsFile, "r") as file:
+    propsData = file.read()
+
+previousPathMatch = search(r"<ATLYSS_PATH>(.*?)</ATLYSS_PATH>", propsData)
+previousPath = previousPathMatch.group(1) if previousPathMatch else None
+
+if previousPath and path.exists(previousPath):
+    print("Previous ATLYSS_PATH seems valid, won't overwrite it.")
+    exit()
+
+print(f"Previous ATLYSS_PATH {previousPath if previousPath else 'is not set or invalid'}")
+print("Attempting to override ATLYSS_PATH value...")
+newPath = findAtlyss()
+
+if newPath:
+    newPathEscaped = newPath.replace("\\", "\\\\")
+    if "<ATLYSS_PATH>" in propsData:
+        updatedData = sub(r"<ATLYSS_PATH>.*?</ATLYSS_PATH>", f"<ATLYSS_PATH>{newPathEscaped}</ATLYSS_PATH>", propsData)
+    else:
+        updatedData = propsData + f"\n<ATLYSS_PATH>{newPathEscaped}</ATLYSS_PATH>\n"
+
+    with open(propsFile, "w") as file:
+        file.write(updatedData)
+
+    print(f"Set ATLYSS_PATH to {newPath}!")
 else:
-  print("This script doesn't support your platform yet, try manually specifying ATLYSS_PATH in _Utils/InstallPath.props.")
-  sys.exit(1)
-
-print(f'Searching for the game install in {len(SEARCH_PATHS)} paths.')
-
-CHOSEN_PATH = None
-for path in SEARCH_PATHS:
-  if os.path.exists(os.path.join(path, GAME_EXECUTABLE)):
-    CHOSEN_PATH = path
-    break
-
-if CHOSEN_PATH is None:
-  print("Couldn't determine install path, try manually specifying ATLYSS_PATH in _Utils/InstallPath.props.")
-  sys.exit(1)
-
-with open('../Directory.Build.props', 'r') as f:
-  PROPS_DATA = f.read()
-
-match = re.search("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", PROPS_DATA)
-
-if match is None:
-  print("Couldn't determine props location, try manually specifying ATLYSS_PATH in _Utils/InstallPath.props.")
-  sys.exit(1)
-
-PREVIOUS_PATH = match.group(1)
-
-if not os.path.exists(os.path.join(PREVIOUS_PATH, GAME_EXECUTABLE)):
-  print(f"Previous ATLYSS_PATH {PREVIOUS_PATH} is invalid!")
-  print(f"Overriding ATLYSS_PATH value with {CHOSEN_PATH}")
-else:
-  print(f"Previous ATLYSS_PATH {PREVIOUS_PATH} seems valid, won't overwrite it.")
-  if PREVIOUS_PATH != CHOSEN_PATH:
-    print(f"The detected path was {CHOSEN_PATH} in case you need it.")
-  sys.exit(0)
-  
-
-NEW_PATH = str.replace(fr"<ATLYSS_PATH>{CHOSEN_PATH}</ATLYSS_PATH>", "\\", "\\\\")
-
-NEW_PROPS_DATA = re.sub("<ATLYSS_PATH>(.*)</ATLYSS_PATH>", NEW_PATH, PROPS_DATA)
-
-with open('../Directory.Build.props', 'w') as f:
-  f.write(NEW_PROPS_DATA)
-
-print(f"Set ATLYSS_PATH to {CHOSEN_PATH}")
+    print("Couldn't determine install path. Please specify ATLYSS_PATH manually in Directory.Build.props.")
