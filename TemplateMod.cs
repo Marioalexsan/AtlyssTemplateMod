@@ -13,33 +13,23 @@ using UnityEngine;
 namespace TemplateMod;
 
 [BepInPlugin(ModInfo.PLUGIN_GUID, ModInfo.PLUGIN_NAME, ModInfo.PLUGIN_VERSION)]
+[HarmonyPatch(typeof(TemplateMod), MethodType.Constructor)]
 public class TemplateMod : BaseUnityPlugin
 {
     private Harmony _harmony;
 
-    private void Awake()
+    public TemplateMod()
     {
         _harmony = new Harmony($"{ModInfo.PLUGIN_GUID}");
+        UnityEngine.Debug.Log($"{ModInfo.PLUGIN_NAME} constructed!");
+    }
+
+    private void Awake()
+    {
+        UnityEngine.Debug.Log($"{ModInfo.PLUGIN_NAME} patching!");
         _harmony.PatchAll();
 
         UnityEngine.Debug.Log($"Hello from {ModInfo.PLUGIN_NAME}!");
         UnityEngine.Debug.Log($"Application version is ${Application.version}.");
-
-        SetupMonomodHooks();
     }
-
-    // Uncomment the following stuff if you want to use AutoHookGenPatcher / HookGen
-    // Also comment out the Harmony patch if you do so
-    // (you'll need MMHOOK_Assembly-CSharp.dll)
-
-    private void SetupMonomodHooks()
-    {
-        //On.MainMenuManager.Set_MenuCondition += MainMenuManager_Set_MenuCondition;
-    }
-
-    //public void MainMenuManager_Set_MenuCondition(On.MainMenuManager.orig_Set_MenuCondition orig, MainMenuManager self, int _index)
-    //{
-    //    orig(self, _index);
-    //    self._versionDisplayText.text = Application.version + " with Mods :D";
-    //}
 }
