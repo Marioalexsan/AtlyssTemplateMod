@@ -32,7 +32,8 @@ namespace $(RootNamespace)
     <!-- Adapted from https://github.com/RobynLlama/AtlyssBIETemplate/blob/main/content/AtlyssBepinExTemplate/Config.Build.user.props.template -->
     <Target Name="ThunderstoreStageFiles" AfterTargets="Build" Condition="'$(CreateThunderstorePackage)' == 'true'">
         <Message Text="Staging files for Thunderstore in $(OutputPath)_ThunderstoreBuild" Importance="High" />
-        <RemoveDir  />
+        <!-- Clean up previous staged files -->
+        <RemoveDir Directories="$(OutputPath)_ThunderstoreBuild/" />
         <!-- Assemblies included from build files -->
         <Copy
             SourceFiles="@(ThunderstoreAssemblyInclude->'$(OutputPath)%(Identity)')"

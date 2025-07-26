@@ -40,6 +40,9 @@ This allows you to test your mod, and check that it will work properly for peopl
 # Best practices
 
 - Change places that reference the "TemplateMod" name to the actual name of your mod
+  - Rename `TemplateMod.csproj` and the `TemplateMod` folder to the name of your mod
+  - Rename `TemplateMod.sln` to the name of your mod, then open it with Notepad, and change the `TemplateMod/TemplateMod.csproj` path from the `Project()` reference to the updated path for your project
+  - Change variables in `Directory.Build.props` and the `.csproj` that say "TemplateMod" to the name of your mod
 - Describe your mod in the README.md Thunderstore file, and add some form of contact info for people who want to report bugs or give suggestions
 - Increment your `Version` property in the project every time you want to upload an update according to Semantic Versioning rules: https://semver.org/
 - For the plugin GUID (`AssemblyName`) and package name (`ThunderstorePackageName`), it's best to restrict it to the following characters: [A-Za-z0-9_]
