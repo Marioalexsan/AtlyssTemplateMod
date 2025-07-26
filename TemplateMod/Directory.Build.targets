@@ -11,7 +11,7 @@
 
 namespace $(RootNamespace)
 {
-    static class PluginInfo
+    static class ModInfo
     {
         public const string GUID = "$(BepInExPluginGuid)"%3B
         public const string NAME = "$(BepInExPluginName)"%3B
