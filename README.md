@@ -6,7 +6,7 @@ This template is targeted towards publishing mods with Thunderstore, and will ge
 
 # Configuring the project
 
-Set the following properties in [Directory.Build.props](./Directory.Build.props):
+Set the following properties in [Directory.Build.props](./TemplateMod/Directory.Build.props):
 - `AtlyssPath` - **IMPORTANT** - the install path for Atlyss on your machine, used to reference the game assembly
 - `CreateThunderstorePackage` - `true` to generate a Thunderstore package, `false` to skip it; usually you want this set to `true`
 - `ThunderstorePackageName` - the name of the package; used as the `name` field in `manifest.json`, and is part of the generated ZIP name
@@ -18,7 +18,7 @@ Set the following properties in [Directory.Build.props](./Directory.Build.props)
 - `ThunderstoreAssemblyInclude` - an assembly to copy over to the generated ZIP package; by default, the generated plugin assembly is included
   - you should include any third-party or runtime dependencies that don't come from Thunderstore dependencies, or aren't bundled with ATLYSS itself 
 
-Also set the following properties in the project file for the plugin:
+Also set the following properties in the `.csproj` for the plugin:
 - `AssemblyName` - name of the generated plugin assembly, also used as the GUID of the plugin
 - `Product` - used as the name of the plugin
 - `Version` - used as the version of the plugin and the `version` field in `manifest.json`
@@ -53,7 +53,8 @@ This allows you to test your mod, and check that it will work properly for peopl
 # Additional resources
 
 Alternative templates:
-- [AtlyssBIETemplate](https://github.com/RobynLlama/AtlyssBIETemplate/tree/main) by [Robyn](https://github.com/RobynLlama)
+- [AtlyssBIETemplate](https://github.com/RobynLlama/AtlyssBIETemplate) by [Robyn](https://github.com/RobynLlama)
+- [ATLYSS-Template](https://github.com/Nestorboy/ATLYSS-Template) by [Nestorboy](https://github.com/Nestorboy)
 
 Documentation:
 - Thunderstore package format: https://thunderstore.io/c/atlyss/create/docs/
