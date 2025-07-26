@@ -39,10 +39,21 @@ This allows you to test your mod, and check that it will work properly for peopl
 
 # Best practices
 
+- Change places that reference the "TemplateMod" name to the actual name of your mod
 - Describe your mod in the README.md Thunderstore file, and add some form of contact info for people who want to report bugs or give suggestions
 - Increment your `Version` property in the project every time you want to upload an update according to Semantic Versioning rules: https://semver.org/
+- For the plugin GUID (`AssemblyName`) and package name (`ThunderstorePackageName`), it's best to restrict it to the following characters: [A-Za-z0-9_]
+  - Underscores are displayed as spaces in Thunderstore
 - Do not change the `ThunderstorePackageName` after uploading your mod; if you do, Thunderstore will see it as a new, unique mod, instead of updating your old submission
 - Set `ThunderstoreTeamName` as the name of the team you use to upload the mod on Thunderstore, and don't change it
+
+# Additional resources
+
+Alternative templates:
+- [AtlyssBIETemplate](https://github.com/RobynLlama/AtlyssBIETemplate/tree/main) by [Robyn](https://github.com/RobynLlama)
+
+Documentation:
+- Thunderstore package format: https://thunderstore.io/c/atlyss/create/docs/
 
 # Contributors
 
