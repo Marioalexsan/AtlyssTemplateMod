@@ -1,9 +1,0 @@
-{
-  "name": "TemplateMod",
-  "version_number": "1.0.0",
-  "website_url": "https://store.steampowered.com/app/2768430/ATLYSS/",
-  "description": "Template mod for ATLYSS",
-  "dependencies": [
-    "BepInEx-BepInExPack-5.4.2100"
-  ]
-}

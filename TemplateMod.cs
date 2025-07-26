@@ -1,35 +1,26 @@
-﻿using System;
-using System.Security;
-using System.Security.Permissions;
-using BepInEx;
+﻿using BepInEx;
 using HarmonyLib;
 using UnityEngine;
 
-#pragma warning disable CS0618
-
-[module: UnverifiableCode]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
-
 namespace TemplateMod;
 
-[BepInPlugin(ModInfo.PLUGIN_GUID, ModInfo.PLUGIN_NAME, ModInfo.PLUGIN_VERSION)]
+[BepInPlugin(PluginInfo.GUID, PluginInfo.NAME, PluginInfo.VERSION)]
 [HarmonyPatch(typeof(TemplateMod), MethodType.Constructor)]
 public class TemplateMod : BaseUnityPlugin
 {
-    private Harmony _harmony;
+    private readonly Harmony _harmony = new Harmony($"{PluginInfo.GUID}");
 
     public TemplateMod()
     {
-        _harmony = new Harmony($"{ModInfo.PLUGIN_GUID}");
-        UnityEngine.Debug.Log($"{ModInfo.PLUGIN_NAME} constructed!");
+        UnityEngine.Debug.Log($"{PluginInfo.NAME} constructed!");
     }
 
     private void Awake()
     {
-        UnityEngine.Debug.Log($"{ModInfo.PLUGIN_NAME} patching!");
+        UnityEngine.Debug.Log($"{PluginInfo.NAME} patching!");
         _harmony.PatchAll();
 
-        UnityEngine.Debug.Log($"Hello from {ModInfo.PLUGIN_NAME}!");
+        UnityEngine.Debug.Log($"Hello from {PluginInfo.NAME}!");
         UnityEngine.Debug.Log($"Application version is ${Application.version}.");
     }
 }
